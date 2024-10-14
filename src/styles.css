@@ -51,7 +51,7 @@ label {
 }
 
 button.p-button {
-  margin: 0 .25em;
+  margin: 0 2px;
 }
 
 @media (min-width: 40em) {
