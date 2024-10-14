@@ -15,6 +15,7 @@ import { LancamentoCadastroComponent } from './lancamento-cadastro/lancamento-ca
 import { LancamentosPesquisaComponent } from './lancamentos-pesquisa/lancamentos-pesquisa.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PessoasPesquisaComponent } from './pessoas-pesquisa/pessoas-pesquisa.component';
+import {SelectButtonModule} from "primeng/selectbutton";
 
 
 
@@ -36,7 +37,8 @@ import { PessoasPesquisaComponent } from './pessoas-pesquisa/pessoas-pesquisa.co
     InputTextareaModule,
     TableModule,
     TabViewModule,
-    TooltipModule
+    TooltipModule,
+    SelectButtonModule
 
   ],
   providers: [],
