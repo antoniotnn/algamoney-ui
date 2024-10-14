@@ -4,8 +4,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { SelectButtonModule } from 'primeng/selectbutton';
 import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { TooltipModule } from 'primeng/tooltip';
@@ -15,7 +17,6 @@ import { LancamentoCadastroComponent } from './lancamento-cadastro/lancamento-ca
 import { LancamentosPesquisaComponent } from './lancamentos-pesquisa/lancamentos-pesquisa.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PessoasPesquisaComponent } from './pessoas-pesquisa/pessoas-pesquisa.component';
-import {SelectButtonModule} from "primeng/selectbutton";
 
 
 
@@ -33,12 +34,13 @@ import {SelectButtonModule} from "primeng/selectbutton";
 
     ButtonModule,
     CalendarModule,
+    DropdownModule,
     InputTextModule,
     InputTextareaModule,
+    SelectButtonModule,
     TableModule,
     TabViewModule,
-    TooltipModule,
-    SelectButtonModule
+    TooltipModule
 
   ],
   providers: [],

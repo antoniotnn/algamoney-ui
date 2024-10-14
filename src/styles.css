@@ -37,8 +37,12 @@ label {
   text-align: center !important;
 }
 
+.col-acoes-header {
+  width: 115px;
+}
+
 .col-acoes {
-  width: 120px;
+  width: 115px;
   text-align: center;
 }
 
@@ -46,8 +50,8 @@ label {
   margin-right: 5px;
 }
 
-.p-button {
-  margin-right: 0.25em !important;
+button.p-button {
+  margin: 0 .25em;
 }
 
 @media (min-width: 40em) {
@@ -68,11 +72,11 @@ label {
   }
 
   .col-acoes-header {
-    width: 115px;
+    width: 120px;
   }
 
   .col-acoes {
-    width: 115px;
+    width: 120px;
     text-align: center !important;
   }
 
