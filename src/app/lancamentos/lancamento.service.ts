@@ -2,10 +2,12 @@ import { DatePipe } from '@angular/common';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-export interface LancamentoFiltro {
-  descricao?: string
-  dataVencimentoInicio?: Date,
+export class LancamentoFiltro {
+  descricao?: string;
+  dataVencimentoInicio?: Date;
   dataVencimentoFim?: Date;
+  pagina = 0;
+  itensPorPagina = 5;
 }
 
 @Injectable({
@@ -15,16 +17,16 @@ export class LancamentoService {
 
   lancamentosUrl = 'http://localhost:8080/lancamentos';
 
-  constructor(
-    private http: HttpClient,
-    private datePipe: DatePipe
-  ) { }
+  constructor(private http: HttpClient,
+              private datePipe: DatePipe) { }
 
   pesquisar(filtro: LancamentoFiltro): Promise<any> {
     const headers = new HttpHeaders()
       .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
 
-    let params = new HttpParams();
+    let params = new HttpParams()
+      .set('page', filtro.pagina)
+      .set('size', filtro.itensPorPagina);
 
 
     if (filtro.descricao) {
@@ -41,7 +43,16 @@ export class LancamentoService {
 
     return this.http.get(`${this.lancamentosUrl}?resumo`, { headers, params })
       .toPromise()
-      .then((response: any) => response['content']);
+      .then((response: any) => {
+        const lancamentos = response['content'];
+
+        const resultado = {
+          lancamentos,
+          total: response['totalElements']
+        };
+
+        return resultado;
+      });
   }
 
 }
