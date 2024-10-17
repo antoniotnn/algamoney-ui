@@ -10,8 +10,8 @@ export class Lancamento {
   codigo?: number;
   tipo = 'RECEITA';
   descricao?: string;
-  dataVencimento?: Date;
-  dataPagamento?: Date;
+  dataVencimento?: Date | string;
+  dataPagamento?: Date | string;
   valor?: number;
   observacao?: string;
   pessoa = new Pessoa();

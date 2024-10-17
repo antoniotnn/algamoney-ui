@@ -1,10 +1,14 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import { Lancamento } from './../../core/model';
+import { MessageService } from 'primeng/api';
+
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { PessoaService } from 'src/app/pessoas/pessoa.service';
+import { LancamentoService } from '../lancamento.service';
 import { CategoriaService } from './../../categorias/categoria.service';
+import { Lancamento } from './../../core/model';
 
 @Component({
   selector: 'app-lancamento-cadastro',
@@ -23,11 +27,13 @@ export class LancamentoCadastroComponent implements OnInit {
     { label: 'Despesa', value: 'DESPESA' },
   ];
 
-
   constructor(
     private categoriaService: CategoriaService,
     private pessoaService: PessoaService,
-    private errorHandler: ErrorHandlerService
+    private lancamentoService: LancamentoService,
+    private messageService: MessageService,
+    private errorHandler: ErrorHandlerService,
+    protected datePipe: DatePipe
   ) { }
 
   ngOnInit(): void {
@@ -53,9 +59,21 @@ export class LancamentoCadastroComponent implements OnInit {
       .catch(erro => this.errorHandler.handle(erro));
   }
 
-  salvar(lancamentoForm: NgForm) {
-    console.log(this.lancamento);
+  salvar(form: NgForm) {
+    if (this.lancamento.dataVencimento) {
+      this.lancamento.dataVencimento = this.datePipe.transform(this.lancamento.dataVencimento, 'dd/MM/yyyy')!;
+    }
+    if (this.lancamento.dataPagamento) {
+      this.lancamento.dataPagamento = this.datePipe.transform(this.lancamento.dataPagamento, 'dd/MM/yyyy')!;
+    }
 
+    this.lancamentoService.adicionar(this.lancamento)
+      .then(() => {
+        this.messageService.add({ severity: 'success', detail: 'Lançamento adicionado com sucesso!' });
+
+        form.reset();
+        this.lancamento = new Lancamento();
+      })
+      .catch(erro => this.errorHandler.handle(erro));
   }
-
 }
