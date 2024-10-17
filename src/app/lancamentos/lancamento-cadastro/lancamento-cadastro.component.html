@@ -33,8 +33,8 @@
 
       <div class="col-12 md:col-3 p-fluid">
         <label>Valor</label>
-        <p-inputNumber mode="currency" currency="BRL" locale="pt-BR" placeholder="0,00" ngModel name="valor" #valor="ngModel"
-                       [required]="true"></p-inputNumber>
+        <p-inputNumber mode="currency" currency="BRL" locale='pt-BR' placeholder="0,00" ngModel name="valor"
+                       #valor="ngModel" [required]="true"></p-inputNumber>
       </div>
       <div class="col-12 md:col-6 p-fluid">
         <label>Categoria</label>
@@ -52,7 +52,7 @@
       <div class="col-12">
         <button pButton type="submit" label="Salvar" [disabled]="lancamentoForm.invalid"></button>
         <button pButton type="button" label="Novo" class="p-button-info"></button>
-        <a href="javascript:;">Voltar para a pesquisa</a>
+        <a href="javascript:">Voltar para a pesquisa</a>
       </div>
     </div>
 
