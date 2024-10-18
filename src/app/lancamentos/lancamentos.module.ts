@@ -13,6 +13,8 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 
+import { RouterModule } from '@angular/router';
+
 import { SharedModule } from '../shared/shared.module';
 import { LancamentoCadastroComponent } from './lancamento-cadastro/lancamento-cadastro.component';
 import { LancamentosPesquisaComponent } from './lancamentos-pesquisa/lancamentos-pesquisa.component';
@@ -22,6 +24,7 @@ import { LancamentosPesquisaComponent } from './lancamentos-pesquisa/lancamentos
     CommonModule,
     FormsModule,
     HttpClientModule,
+    RouterModule,
 
     InputNumberModule,
     InputTextModule,
