@@ -10,7 +10,6 @@ import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { PessoaService } from 'src/app/pessoas/pessoa.service';
 import { LancamentoService } from '../lancamento.service';
 import { CategoriaService } from './../../categorias/categoria.service';
-import {isNumeric} from "rxjs/internal-compatibility";
 
 @Component({
   selector: 'app-lancamento-cadastro',
@@ -42,8 +41,8 @@ export class LancamentoCadastroComponent implements OnInit {
   ngOnInit(): void {
     const codigoLancamento = this.route.snapshot.params['codigo'];
 
-    if (codigoLancamento && isNumeric(codigoLancamento)) {
-      this.carregarLancamento(Number(codigoLancamento))
+    if (codigoLancamento && codigoLancamento !== 'novo') {
+      this.carregarLancamento(codigoLancamento)
     }
 
     this.carregarCategorias()
@@ -81,21 +80,44 @@ export class LancamentoCadastroComponent implements OnInit {
   }
 
   salvar(form: NgForm) {
-    if (this.lancamento.dataVencimento) {
-      this.lancamento.dataVencimento = this.datePipe.transform(this.lancamento.dataVencimento, 'dd/MM/yyyy')!;
+    if (this.editando) {
+      this.atualizarLancamento(form)
+    } else {
+      this.adicionarLancamento(form)
     }
-    if (this.lancamento.dataPagamento) {
-      this.lancamento.dataPagamento = this.datePipe.transform(this.lancamento.dataPagamento, 'dd/MM/yyyy')!;
-    }
+  }
+
+  atualizarLancamento(form: NgForm) {
+    this.converterDatasParaString(this.lancamento);
+
+    this.lancamentoService.atualizar(this.lancamento)
+      .then((lancamento: Lancamento) => {
+          this.lancamento = lancamento;
+          this.messageService.add({ severity: 'success', detail: 'Lançamento alterado com sucesso!' });
+        }
+      ).catch(erro => this.errorHandler.handle(erro))
+  }
+
+  adicionarLancamento(form: NgForm) {
+    this.converterDatasParaString(this.lancamento);
 
     this.lancamentoService.adicionar(this.lancamento)
       .then(() => {
-        this.messageService.add({ severity: 'success', detail: 'Lançamento adicionado com sucesso!' });
+          this.messageService.add({ severity: 'success', detail: 'Lançamento adicionado com sucesso!' });
 
-        form.reset();
-        this.lancamento = new Lancamento();
-      })
-      .catch(erro => this.errorHandler.handle(erro));
+          form.reset();
+          this.lancamento = new Lancamento();
+        }
+      ).catch(erro => this.errorHandler.handle(erro));
+  }
+
+  private converterDatasParaString(lancamento: Lancamento) {
+    if (lancamento.dataVencimento) {
+      lancamento.dataVencimento = this.datePipe.transform(lancamento.dataVencimento, 'dd/MM/yyyy')!;
+    }
+    if (lancamento.dataPagamento) {
+      lancamento.dataPagamento = this.datePipe.transform(lancamento.dataPagamento, 'dd/MM/yyyy')!;
+    }
   }
 
 }

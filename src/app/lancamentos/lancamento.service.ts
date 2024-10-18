@@ -1,7 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
 import { Lancamento } from '../core/model';
 
 export class LancamentoFiltro {
@@ -80,7 +79,12 @@ export class LancamentoService {
       .append('Content-Type', 'application/json');
 
     return this.http.put<Lancamento>(`${this.lancamentosUrl}/${lancamento.codigo}`, lancamento, { headers })
-      .toPromise();
+      .toPromise()
+      .then((response: any) => {
+        this.converterStringsParaDatas([response]);
+
+        return response;
+      });
   }
 
   buscarPorCodigo(codigo: number): Promise<Lancamento> {
