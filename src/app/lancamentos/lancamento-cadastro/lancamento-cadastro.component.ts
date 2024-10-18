@@ -1,15 +1,17 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { MessageService } from 'primeng/api';
 
-import { Lancamento } from './../../core/model';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { PessoaService } from 'src/app/pessoas/pessoa.service';
 import { LancamentoService } from '../lancamento.service';
 import { CategoriaService } from './../../categorias/categoria.service';
+import { Lancamento } from './../../core/model';
 
 @Component({
   selector: 'app-lancamento-cadastro',
@@ -36,11 +38,14 @@ export class LancamentoCadastroComponent implements OnInit {
     private errorHandler: ErrorHandlerService,
     private route: ActivatedRoute,
     private router: Router,
+    private title: Title,
     protected datePipe: DatePipe
   ) { }
 
   ngOnInit(): void {
     const codigoLancamento = this.route.snapshot.params['codigo'];
+
+    this.title.setTitle('Novo lançamento')
 
     if (codigoLancamento && codigoLancamento !== 'novo') {
       this.carregarLancamento(codigoLancamento)
@@ -58,6 +63,7 @@ export class LancamentoCadastroComponent implements OnInit {
     this.lancamentoService.buscarPorCodigo(codigo)
       .then(lancamento => {
           this.lancamento = lancamento;
+          this.atualizarTituloEdicao()
         },
         erro => this.errorHandler.handle(erro));
   }
@@ -95,6 +101,7 @@ export class LancamentoCadastroComponent implements OnInit {
       .then((lancamento: Lancamento) => {
           this.lancamento = lancamento;
           this.messageService.add({ severity: 'success', detail: 'Lançamento alterado com sucesso!' });
+          this.atualizarTituloEdicao()
         }
       ).catch(erro => this.errorHandler.handle(erro))
   }
@@ -123,6 +130,10 @@ export class LancamentoCadastroComponent implements OnInit {
     this.router.navigate(['lancamentos/novo']);
   }
 
+  atualizarTituloEdicao() {
+    this.title.setTitle(`Edição de lançamento: ${this.lancamento.descricao}`)
+  }
+
   private converterDatasParaString(lancamento: Lancamento) {
     if (lancamento.dataVencimento) {
       lancamento.dataVencimento = this.datePipe.transform(lancamento.dataVencimento, 'dd/MM/yyyy')!;
@@ -131,5 +142,4 @@ export class LancamentoCadastroComponent implements OnInit {
       lancamento.dataPagamento = this.datePipe.transform(lancamento.dataPagamento, 'dd/MM/yyyy')!;
     }
   }
-
 }

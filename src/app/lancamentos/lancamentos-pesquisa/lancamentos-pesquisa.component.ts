@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -13,7 +14,6 @@ import { LancamentoFiltro, LancamentoService } from './../lancamento.service';
 })
 export class LancamentosPesquisaComponent implements OnInit {
 
-
   filtro = new LancamentoFiltro();
 
   totalRegistros: number = 0
@@ -25,10 +25,12 @@ export class LancamentosPesquisaComponent implements OnInit {
     private lancamentoService: LancamentoService,
     private errorHandler: ErrorHandlerService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private title: Title
   ) { }
 
   ngOnInit() {
+    this.title.setTitle('Pesquisa de lançamentos')
   }
 
   pesquisar(pagina: number = 0): void {
@@ -68,7 +70,6 @@ export class LancamentosPesquisaComponent implements OnInit {
 
         this.messageService.add({ severity: 'success', detail: 'Lançamento excluído com sucesso!' })
       })
-      .catch(erro => this.errorHandler.handle(erro));
   }
 
 }

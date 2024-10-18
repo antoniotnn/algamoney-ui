@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import localePt from '@angular/common/locales/pt';
 
 import { NgModule } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 import { RouterModule } from '@angular/router';
 
@@ -55,6 +56,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 
     MessageService,
     ConfirmationService,
+    Title,
     TranslateService
   ]
 })
