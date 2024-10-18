@@ -2,13 +2,14 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
+import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 
+import { Lancamento } from './../../core/model';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { PessoaService } from 'src/app/pessoas/pessoa.service';
 import { LancamentoService } from '../lancamento.service';
 import { CategoriaService } from './../../categorias/categoria.service';
-import { Lancamento } from './../../core/model';
 
 @Component({
   selector: 'app-lancamento-cadastro',
@@ -27,16 +28,20 @@ export class LancamentoCadastroComponent implements OnInit {
     { label: 'Despesa', value: 'DESPESA' },
   ];
 
+
   constructor(
     private categoriaService: CategoriaService,
     private pessoaService: PessoaService,
     private lancamentoService: LancamentoService,
     private messageService: MessageService,
     private errorHandler: ErrorHandlerService,
+    private route: ActivatedRoute,
     protected datePipe: DatePipe
   ) { }
 
   ngOnInit(): void {
+    console.log(this.route.snapshot.params['codigo']);
+
     this.carregarCategorias()
     this.carregarPessoas()
   }
