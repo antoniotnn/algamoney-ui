@@ -21,8 +21,4 @@ export class NavbarComponent implements OnInit {
     return this.auth.temPermissao(permissao);
   }
 
-  criarNovoAccessToken() {
-    this.auth.obterNovoAccessToken();
-  }
-
 }
