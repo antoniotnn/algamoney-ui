@@ -87,7 +87,7 @@ export class LancamentoCadastroComponent implements OnInit {
     this.lancamentoService.buscarPorCodigo(codigo)
       .then(lancamento => {
           // this.lancamento = lancamento
-          this.formulario.setValue(lancamento)
+          this.formulario.patchValue(lancamento)
           this.atualizarTituloEdicao()
         },
         erro => this.errorHandler.handle(erro));
@@ -137,7 +137,7 @@ export class LancamentoCadastroComponent implements OnInit {
     this.lancamentoService.atualizar(this.formulario.value)
       .then((lancamento: Lancamento) => {
           // this.lancamento = lancamento;
-          this.formulario.setValue(lancamento)
+          this.formulario.patchValue(lancamento)
           this.messageService.add({ severity: 'success', detail: 'Lançamento alterado com sucesso!' });
           this.atualizarTituloEdicao()
         }
