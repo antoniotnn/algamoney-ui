@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
@@ -40,8 +39,7 @@ export class LancamentoCadastroComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private title: Title,
-    private formBuilder: FormBuilder,
-    protected datePipe: DatePipe
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -130,7 +128,6 @@ export class LancamentoCadastroComponent implements OnInit {
   }
 
   adicionarLancamento() {
-    this.converterDatasParaString(this.formulario.value);
 
     this.lancamentoService.adicionar(this.formulario.value)
       .then(lancamentoAdicionado => {
@@ -142,7 +139,6 @@ export class LancamentoCadastroComponent implements OnInit {
   }
 
   atualizarLancamento() {
-    this.converterDatasParaString(this.formulario.value);
 
     this.lancamentoService.atualizar(this.formulario.value)
       .then((lancamento: Lancamento) => {
@@ -162,15 +158,6 @@ export class LancamentoCadastroComponent implements OnInit {
 
   atualizarTituloEdicao() {
     this.title.setTitle(`Edição de lançamento: ${this.formulario.get('descricao')?.value}`)
-  }
-
-  private converterDatasParaString(lancamento: Lancamento) {
-    if (lancamento.dataVencimento) {
-      lancamento.dataVencimento = this.datePipe.transform(lancamento.dataVencimento, 'dd/MM/yyyy')!;
-    }
-    if (lancamento.dataPagamento) {
-      lancamento.dataPagamento = this.datePipe.transform(lancamento.dataPagamento, 'dd/MM/yyyy')!;
-    }
   }
 
 }
