@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 
 import { ActivatedRoute, Router } from '@angular/router';
@@ -55,6 +55,14 @@ export class LancamentoCadastroComponent implements OnInit {
 
     this.carregarCategorias()
     this.carregarPessoas()
+  }
+
+  get urlUploadAnexo() {
+    return this.lancamentoService.urlUploadAnexo();
+  }
+
+  get uploadHeaders() {
+    return this.lancamentoService.uploadHeaders();
   }
 
   configurarFormulario() {
@@ -128,7 +136,6 @@ export class LancamentoCadastroComponent implements OnInit {
   }
 
   adicionarLancamento() {
-
     this.lancamentoService.adicionar(this.formulario.value)
       .then(lancamentoAdicionado => {
           this.messageService.add({ severity: 'success', detail: 'Lançamento adicionado com sucesso!' });
@@ -139,7 +146,6 @@ export class LancamentoCadastroComponent implements OnInit {
   }
 
   atualizarLancamento() {
-
     this.lancamentoService.atualizar(this.formulario.value)
       .then((lancamento: Lancamento) => {
           // this.lancamento = lancamento;
@@ -159,5 +165,4 @@ export class LancamentoCadastroComponent implements OnInit {
   atualizarTituloEdicao() {
     this.title.setTitle(`Edição de lançamento: ${this.formulario.get('descricao')?.value}`)
   }
-
 }

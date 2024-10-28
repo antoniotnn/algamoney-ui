@@ -1,8 +1,9 @@
-import { environment } from './../../environments/environment';
 import { DatePipe } from '@angular/common';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
 import { Lancamento } from '../core/model';
+import { environment } from './../../environments/environment';
 
 export class LancamentoFiltro {
   descricao?: string
@@ -24,6 +25,15 @@ export class LancamentoService {
     private datePipe: DatePipe
   ) {
     this.lancamentosUrl = `${environment.apiUrl}/lancamentos`
+  }
+
+  urlUploadAnexo(): string {
+    return `${this.lancamentosUrl}/anexo`;
+  }
+
+  uploadHeaders() {
+    return new HttpHeaders()
+      .append('Authorization', 'Bearer ' + localStorage.getItem('token'))
   }
 
   pesquisar(filtro: LancamentoFiltro): Promise<any> {
