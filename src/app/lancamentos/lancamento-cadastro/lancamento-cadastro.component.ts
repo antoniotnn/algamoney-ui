@@ -75,6 +75,13 @@ export class LancamentoCadastroComponent implements OnInit {
     this.uploadEmAndamento = false;
   }
 
+  removerAnexo() {
+    this.formulario.patchValue({
+      anexo: null,
+      urlAnexo: null
+    });
+  }
+
   get nomeAnexo() {
     const nome = this.formulario?.get('anexo')?.value;
     if (nome) {
@@ -132,6 +139,12 @@ export class LancamentoCadastroComponent implements OnInit {
     this.lancamentoService.buscarPorCodigo(codigo)
       .then(lancamento => {
           this.formulario.patchValue(lancamento)
+
+          if (this.formulario.get('urlAnexo')?.value)
+            this.formulario.patchValue({
+              urlAnexo: this.formulario.get('urlAnexo')?.value.replace('\\\\', 'https://')
+            });
+
           this.atualizarTituloEdicao()
         },
         erro => this.errorHandler.handle(erro));
