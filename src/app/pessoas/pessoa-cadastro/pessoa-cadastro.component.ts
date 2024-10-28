@@ -3,9 +3,11 @@ import { NgForm } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+
 import { ErrorHandlerService } from '../../core/error-handler.service';
 import { Pessoa } from '../../core/model';
 import { PessoaService } from '../pessoa.service';
+import { Contato } from './../../core/model';
 
 @Component({
   selector: 'app-pessoa-cadastro',
@@ -16,6 +18,7 @@ export class PessoaCadastroComponent implements OnInit {
 
   pessoa = new Pessoa();
   exbindoFormularioContato = false;
+  contato?: Contato;
 
   constructor(
     private pessoaService: PessoaService,
@@ -38,6 +41,7 @@ export class PessoaCadastroComponent implements OnInit {
 
   prepararNovoContato() {
     this.exbindoFormularioContato = true;
+    this.contato = new Contato();
   }
 
   get editando() {
