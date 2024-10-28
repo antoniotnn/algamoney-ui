@@ -18,8 +18,6 @@ import { Lancamento } from './../../core/model';
   styleUrls: ['./lancamento-cadastro.component.css']
 })
 export class LancamentoCadastroComponent implements OnInit {
-
-  // lancamento: Lancamento = new Lancamento();
   formulario!: FormGroup;
 
   categorias: any[] = [];
@@ -29,6 +27,8 @@ export class LancamentoCadastroComponent implements OnInit {
     { label: 'Receita', value: 'RECEITA' },
     { label: 'Despesa', value: 'DESPESA' },
   ];
+
+  uploadEmAndamento = false;
 
   constructor(
     private categoriaService: CategoriaService,
@@ -57,16 +57,22 @@ export class LancamentoCadastroComponent implements OnInit {
     this.carregarPessoas()
   }
 
+  antesUploadAnexo() {
+    this.uploadEmAndamento = true;
+  }
+
   aoTerminarUploadAnexo(event: any) {
     const anexo = event.originalEvent.body;
     this.formulario.patchValue({
       anexo: anexo.nome,
       urlAnexo: anexo.url.replace('\\\\', 'https://')
     });
+    this.uploadEmAndamento = false;
   }
 
   erroUpload(event: any) {
     this.messageService.add({ severity: 'error', detail: 'Erro ao tentar enviar anexo!' });
+    this.uploadEmAndamento = false;
   }
 
   get nomeAnexo() {
@@ -125,7 +131,6 @@ export class LancamentoCadastroComponent implements OnInit {
   carregarLancamento(codigo: number) {
     this.lancamentoService.buscarPorCodigo(codigo)
       .then(lancamento => {
-          // this.lancamento = lancamento
           this.formulario.patchValue(lancamento)
           this.atualizarTituloEdicao()
         },
@@ -171,7 +176,6 @@ export class LancamentoCadastroComponent implements OnInit {
   atualizarLancamento() {
     this.lancamentoService.atualizar(this.formulario.value)
       .then((lancamento: Lancamento) => {
-          // this.lancamento = lancamento;
           this.formulario.patchValue(lancamento)
           this.messageService.add({ severity: 'success', detail: 'Lançamento alterado com sucesso!' });
           this.atualizarTituloEdicao()
