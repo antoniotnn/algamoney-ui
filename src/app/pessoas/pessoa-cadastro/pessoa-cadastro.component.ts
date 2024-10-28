@@ -7,7 +7,6 @@ import { MessageService } from 'primeng/api';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 import { Pessoa } from '../../core/model';
 import { PessoaService } from '../pessoa.service';
-import { Contato } from './../../core/model';
 
 @Component({
   selector: 'app-pessoa-cadastro',
@@ -17,9 +16,6 @@ import { Contato } from './../../core/model';
 export class PessoaCadastroComponent implements OnInit {
 
   pessoa = new Pessoa();
-  exbindoFormularioContato = false;
-  contato?: Contato;
-  contatoIndex?: number;
 
   constructor(
     private pessoaService: PessoaService,
@@ -38,32 +34,6 @@ export class PessoaCadastroComponent implements OnInit {
     if (codigoPessoa && codigoPessoa !== 'nova') {
       this.carregarPessoa(codigoPessoa);
     }
-  }
-
-  prepararNovoContato() {
-    this.exbindoFormularioContato = true;
-    this.contato = new Contato();
-    this.contatoIndex = this.pessoa.contatos.length;
-  }
-
-  prepararEdicaoContato(contato: Contato, index: number) {
-    this.contato = this.clonarContato(contato);
-    this.exbindoFormularioContato = true;
-    this.contatoIndex = index;
-  }
-
-  confirmarContato(frm: NgForm) {
-    this.pessoa.contatos[this.contatoIndex!] = this.clonarContato(this.contato!);
-    this.exbindoFormularioContato = false;
-    frm.reset();
-  }
-
-  removerContato(index: number) {
-    this.pessoa.contatos.splice(index, 1);
-  }
-
-  clonarContato(contato: Contato): Contato {
-    return new Contato(contato.codigo, contato.nome, contato.email, contato.telefone);
   }
 
   get editando() {
