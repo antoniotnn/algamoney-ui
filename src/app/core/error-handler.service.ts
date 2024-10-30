@@ -1,3 +1,4 @@
+import { AuthService } from './../seguranca/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -11,6 +12,7 @@ export class ErrorHandlerService {
 
   constructor(
     private messageService: MessageService,
+    private authService: AuthService,
     private router: Router) { }
 
   handle(errorResponse: any) {
@@ -22,7 +24,7 @@ export class ErrorHandlerService {
       console.log('erro refresh');
 
       msg = 'Sua sessão expirou!';
-      this.router.navigate(['/login']);
+      this.authService.login();
 
     } else if (errorResponse instanceof HttpErrorResponse
       && errorResponse.status >= 400 && errorResponse.status <= 499) {

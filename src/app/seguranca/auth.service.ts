@@ -9,7 +9,8 @@ import { Injectable } from '@angular/core';
 export class AuthService {
 
   tokensRevokeUrl = environment.apiUrl + '/tokens/revoke';
-  oauthTokenUrl = environment.apiUrl + '/oauth/token'
+  oauthTokenUrl = environment.apiUrl + '/oauth2/token';
+  oauthAuthorizeUrl = environment.apiUrl + '/oauth2/authorize';
   jwtPayload: any;
 
   constructor(
@@ -19,27 +20,27 @@ export class AuthService {
     this.carregarToken();
   }
 
-  login(usuario: string, senha: string): Promise<void> {
-    const headers = new HttpHeaders()
-      .append('Content-Type', 'application/x-www-form-urlencoded')
-      .append('Authorization', 'Basic YW5ndWxhcjpAbmd1bEByMA==');
+  login() {
+    const state = 'abc';
+    const challengeMethod = 'plain'
+    const codeChallenge = 'desafio123'
+    const redirectURI = encodeURIComponent(environment.oauthCallbackUrl);
 
-    const body = `username=${usuario}&password=${senha}&grant_type=password`;
+    const clientId = 'angular'
+    const scope = 'read write'
+    const responseType = 'code'
 
-    return this.http.post(this.oauthTokenUrl, body, { headers, withCredentials: true })
-      .toPromise()
-      .then((response: any) => {
-        this.armazenarToken(response['access_token']);
-      })
-      .catch(response => {
-        if (response.status === 400) {
-          if (response.error.error === 'invalid_grant') {
-            return Promise.reject('Usuário ou senha inválida!');
-          }
-        }
+    const params = [
+      'response_type=' + responseType,
+      'client_id=' + clientId,
+      'scope=' + scope,
+      'code_challenge=' + codeChallenge,
+      'code_challenge_method=' + challengeMethod,
+      'state=' + state,
+      'redirect_uri=' + redirectURI
+    ]
 
-        return Promise.reject(response);
-      });
+    window.location.href = this.oauthAuthorizeUrl + '?' +  params.join('&');
   }
 
   obterNovoAccessToken(): Promise<void> {
@@ -109,5 +110,4 @@ export class AuthService {
         this.limparAccessToken();
       });
   }
-
 }
