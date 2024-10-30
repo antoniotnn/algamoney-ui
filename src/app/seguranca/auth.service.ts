@@ -11,7 +11,6 @@ import { environment } from './../../environments/environment';
 })
 export class AuthService {
 
-  tokensRevokeUrl = environment.apiUrl + '/tokens/revoke';
   oauthTokenUrl = environment.apiUrl + '/oauth2/token'
   oauthAuthorizeUrl = environment.apiUrl + '/oauth2/authorize'
   jwtPayload: any;
@@ -171,10 +170,8 @@ export class AuthService {
   }
 
   logout() {
-    return this.http.delete(this.tokensRevokeUrl, { withCredentials: true })
-      .toPromise()
-      .then(() => {
-        this.limparAccessToken();
-      });
+    this.limparAccessToken();
+    localStorage.clear();
+    window.location.href = environment.apiUrl + '/logout?returnTo=' + environment.logoutRedirectToUrl;
   }
 }
